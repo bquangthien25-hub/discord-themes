@@ -33,5 +33,6 @@ The wallpaper is stored in the `--wallpaper` variable near the top of `macOS-Mod
 ## Compatibility
 
 Designed for current BetterDiscord and Vencord builds. Discord updates may change internal class names and require theme adjustments.
-![Uploading image.png…]()
+<img width="2559" height="1529" alt="image" src="https://github.com/user-attachments/assets/8ab7964b-f248-4071-b688-1103d1cf6620" />
+
 
