@@ -341,6 +341,12 @@ body {
   background: var(--macos-green) !important;
 }
 
+/* Only three lights: hide any extra button Discord/Vesktop adds */
+#app-mount [class*="winButtons_"] > :not([class*="winButtonClose_"]):nth-child(n+3),
+#app-mount [class*="winButtons_"] > :not([class*="winButton_"]) {
+  display: none !important;
+}
+
 /* Glyphs appear on hover over the whole group, like macOS */
 #app-mount [class*="winButtons_"] > [class*="winButton_"]::after {
   color: rgba(0, 0, 0, 0.6) !important;
@@ -660,18 +666,65 @@ html:not(:focus-within) #app-mount [class*="winButtons_"]:not(:hover) > [class*=
 /* Server icons: springy lift + soft glow */
 #app-mount nav[class*="guilds_"] [class*="listItem_"] [class*="blobContainer_"],
 #app-mount nav[class*="guilds_"] [class*="listItem_"] [class*="circleIconButton_"] {
-  transition: transform 340ms var(--spring), filter 220ms ease !important;
+  transition: transform 340ms var(--spring) !important;
 }
 
+/* Scale only — filters/translate fight Discord's SVG squircle mask and
+   misalign the icon from its selection pill */
 #app-mount nav[class*="guilds_"] [class*="listItem_"]:hover [class*="blobContainer_"],
 #app-mount nav[class*="guilds_"] [class*="listItem_"]:hover [class*="circleIconButton_"] {
-  transform: scale(1.1) translateY(-1px);
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.12));
+  transform: scale(1.06);
 }
 
 #app-mount nav[class*="guilds_"] [class*="listItem_"]:active [class*="blobContainer_"] {
   transform: scale(0.94);
   transition-duration: 90ms !important;
+}
+
+/* Tooltips (server names, button hints): dark glass with readable text */
+[class*="tooltip_"][class*="tooltipPrimary_"],
+[class*="tooltip_"][class*="tooltipBlack_"],
+[class*="tooltip_"]:not([class*="tooltipPointer_"]):not([class*="tooltipContent_"]) {
+  background-color: var(--glass-popout) !important;
+  background-image: var(--glass-sheen) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 10px !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--glass-edge), 0 10px 28px rgba(0, 0, 0, 0.35) !important;
+  animation: macos-glass-in 140ms var(--ease-out) both;
+}
+
+[class*="tooltip_"] [class*="tooltipContent_"],
+[class*="tooltip_"] [class*="tooltipContent_"] * {
+  color: #ffffff !important;
+}
+
+/* The little arrow would show the old white fill — hide it */
+[class*="tooltip_"] [class*="tooltipPointer_"],
+[class*="tooltipPointer_"] {
+  display: none !important;
+}
+
+/* User panel name and voice status */
+#app-mount [class*="panels_"] [class*="nameTag_"] [class*="title_"],
+#app-mount [class*="panels_"] [class*="panelTitleContainer_"],
+#app-mount [class*="panels_"] [class*="nameTag_"] > div:first-child {
+  color: #ffffff !important;
+}
+
+#app-mount [class*="panels_"] [class*="subtext_"],
+#app-mount [class*="panels_"] [class*="hovered_"],
+#app-mount [class*="panels_"] [class*="channel_"] {
+  color: var(--text-secondary) !important;
+}
+
+#app-mount [class*="panels_"] [class*="rtcConnectionStatusConnected_"],
+#app-mount [class*="panels_"] [class*="rtcConnectionStatus_"] [class*="statusWithPopout_"],
+#app-mount [class*="panels_"] [class*="rtcConnectionStatus_"] {
+  color: #4ade80 !important;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.35);
 }
 
 /* Messages: glass row that slides in slightly */
@@ -778,6 +831,289 @@ html:not(:focus-within) #app-mount [class*="winButtons_"]:not(:hover) > [class*=
 #app-mount [class*="menuItem_"][class*="focused_"] {
   background-color: color-mix(in srgb, var(--accent-color) 85%, transparent) !important;
   color: #ffffff !important;
+}
+
+/* ========================================================================== */
+/* Global palette: every Discord surface follows the glass theme              */
+/* ========================================================================== */
+
+:root,
+html,
+.theme-dark,
+.theme-light,
+.theme-darker,
+.theme-midnight,
+.visual-refresh {
+  --background-surface-high: var(--glass-bg-strong) !important;
+  --background-surface-higher: var(--glass-popout) !important;
+  --background-surface-highest: var(--glass-popout) !important;
+  --background-secondary-alt: var(--glass-bg-strong) !important;
+  --background-floating: var(--glass-popout) !important;
+  --background-nested-floating: var(--glass-popout) !important;
+  --background-accent: rgba(255, 255, 255, 0.14) !important;
+  --background-modifier-accent: var(--glass-border) !important;
+  --background-mod-subtle: rgba(255, 255, 255, 0.05) !important;
+  --background-mod-normal: rgba(255, 255, 255, 0.08) !important;
+  --background-mod-strong: rgba(255, 255, 255, 0.12) !important;
+  --bg-mod-faint: rgba(255, 255, 255, 0.04) !important;
+  --bg-mod-subtle: rgba(255, 255, 255, 0.07) !important;
+  --bg-mod-strong: rgba(255, 255, 255, 0.12) !important;
+  --bg-surface-overlay: var(--glass-popout) !important;
+  --bg-surface-raised: var(--glass-bg-strong) !important;
+  --modal-background: var(--glass-popout) !important;
+  --modal-footer-background: rgba(255, 255, 255, 0.04) !important;
+  --input-background: rgba(255, 255, 255, 0.07) !important;
+  --input-border: var(--glass-border) !important;
+  --card-primary-bg: rgba(255, 255, 255, 0.06) !important;
+  --card-secondary-bg: rgba(255, 255, 255, 0.04) !important;
+  --chat-background: transparent !important;
+  --home-background: transparent !important;
+  --border-faint: rgba(255, 255, 255, 0.06) !important;
+  --border-subtle: rgba(255, 255, 255, 0.10) !important;
+  --border-normal: var(--glass-border) !important;
+  --border-strong: rgba(255, 255, 255, 0.24) !important;
+  --header-primary: #ffffff !important;
+  --header-secondary: var(--text-secondary) !important;
+  --text-strong: #ffffff !important;
+  --text-subtle: var(--text-secondary) !important;
+  --scrollbar-thin-thumb: rgba(255, 255, 255, 0.22) !important;
+  --scrollbar-thin-track: transparent !important;
+  --scrollbar-auto-thumb: rgba(255, 255, 255, 0.22) !important;
+  --scrollbar-auto-track: transparent !important;
+  --scrollbar-auto-scrollbar-color-thumb: rgba(255, 255, 255, 0.22) !important;
+  --scrollbar-auto-scrollbar-color-track: transparent !important;
+}
+
+/* Thin macOS-style scrollbars everywhere */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.36);
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ========================================================================== */
+/* Modals and dialogs                                                         */
+/* ========================================================================== */
+
+[class*="backdrop_"] {
+  background: rgba(12, 10, 24, 0.42) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+
+[role="dialog"][class*="root_"],
+[class*="focusLock_"] > [class*="root_"],
+[class*="focusLock_"] > [class*="modal_"],
+[class*="layer_"] [class*="modal_"][role="dialog"] {
+  background-color: var(--glass-popout) !important;
+  background-image: var(--glass-sheen) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 18px !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(1.06);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(1.06);
+  box-shadow: var(--glass-edge), 0 30px 80px rgba(0, 0, 0, 0.45) !important;
+  animation: macos-glass-in 220ms var(--ease-out) both;
+  overflow: hidden;
+}
+
+[role="dialog"] [class*="footer_"] {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-top: 1px solid var(--glass-border) !important;
+  box-shadow: none !important;
+}
+
+[role="dialog"] [class*="header_"],
+[role="dialog"] [class*="content_"],
+[role="dialog"] [class*="scroller_"] {
+  background: transparent !important;
+}
+
+/* Option rows / cards inside dialogs */
+[role="dialog"] button[class*="container_"],
+[role="dialog"] [class*="templatesList_"] button,
+[role="dialog"] [class*="optionButton"],
+[role="dialog"] [class*="card_"] {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out), transform 280ms var(--spring) !important;
+}
+
+[role="dialog"] button[class*="container_"]:hover,
+[role="dialog"] [class*="templatesList_"] button:hover,
+[role="dialog"] [class*="optionButton"]:hover,
+[role="dialog"] [class*="card_"]:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  transform: translateY(-1px);
+}
+
+/* Secondary filled buttons ("Join a Server", "Cancel") become glass */
+[class*="lookFilled_"][class*="colorPrimary_"],
+[class*="lookFilled_"][class*="colorGrey_"],
+[class*="lookFilled_"][class*="colorTransparent_"] {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: #ffffff !important;
+}
+
+[class*="lookFilled_"][class*="colorPrimary_"]:hover,
+[class*="lookFilled_"][class*="colorGrey_"]:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+[class*="lookFilled_"] {
+  border-radius: 10px !important;
+}
+
+/* ========================================================================== */
+/* Settings                                                                    */
+/* ========================================================================== */
+
+[class*="standardSidebarView_"] {
+  background: transparent !important;
+}
+
+[class*="standardSidebarView_"] [class*="sidebarRegion_"] {
+  background: var(--glass-bg-strong) !important;
+  background-image: var(--glass-sheen) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-right: 1px solid var(--glass-border);
+}
+
+[class*="standardSidebarView_"] [class*="sidebarRegionScroller_"],
+[class*="standardSidebarView_"] [class*="contentRegionScroller_"],
+[class*="standardSidebarView_"] [class*="contentColumn_"] {
+  background: transparent !important;
+}
+
+[class*="standardSidebarView_"] [class*="contentRegion_"] {
+  background: var(--glass-chat) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+/* Settings sidebar items */
+[class*="standardSidebarView_"] [class*="side_"] [class*="item_"] {
+  border-radius: 8px !important;
+  color: var(--interactive-normal) !important;
+  transition: background-color 180ms var(--ease-out), color 160ms ease, transform 280ms var(--spring) !important;
+}
+
+[class*="standardSidebarView_"] [class*="side_"] [class*="item_"]:hover {
+  background: var(--glass-hover) !important;
+  color: #ffffff !important;
+  transform: translateX(3px);
+}
+
+[class*="standardSidebarView_"] [class*="side_"] [class*="selected_"] {
+  background: color-mix(in srgb, var(--accent-color) 75%, transparent) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 14px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Settings close button */
+[class*="toolsContainer_"] [class*="closeButton_"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--glass-border) !important;
+  transition: background-color 180ms ease, transform 260ms var(--spring) !important;
+}
+
+[class*="toolsContainer_"] [class*="closeButton_"]:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  transform: scale(1.06);
+}
+
+/* ========================================================================== */
+/* Inputs, pickers, popouts                                                   */
+/* ========================================================================== */
+
+input[class*="input"],
+textarea[class*="input"],
+[class*="inputDefault_"],
+[class*="inputWrapper_"] input,
+[class*="searchBox_"],
+[class*="select_"][class*="lookFilled_"],
+[class*="quickswitcher_"] input {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 10px !important;
+  color: #ffffff !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease !important;
+}
+
+input[class*="input"]:focus,
+textarea[class*="input"]:focus,
+[class*="inputDefault_"]:focus,
+[class*="inputWrapper_"] input:focus {
+  border-color: color-mix(in srgb, var(--accent-color) 65%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 22%, transparent) !important;
+}
+
+[class*="quickswitcher_"],
+[class*="autocomplete_"],
+[class*="emojiPicker_"],
+[class*="gifPicker"],
+[class*="stickerPicker_"],
+[class*="expressionPicker"] [class*="contentWrapper_"],
+[class*="userPopoutOuter_"],
+[class*="userProfileOuter_"],
+[class*="searchResultsWrap_"],
+[class*="messagesPopoutWrap_"],
+[class*="recentMentionsPopout_"],
+[class*="browser_"][class*="container_"] {
+  background-color: var(--glass-popout) !important;
+  background-image: var(--glass-sheen) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 14px !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--glass-edge), 0 24px 60px rgba(0, 0, 0, 0.38) !important;
+}
+
+[class*="quickswitcher_"] {
+  animation: macos-glass-in 200ms var(--ease-out) both;
+}
+
+/* Inner layers of pickers/popouts stay see-through so the glass shows */
+[class*="emojiPicker_"] [class*="header_"],
+[class*="emojiPicker_"] [class*="categoryList_"],
+[class*="emojiPicker_"] [class*="wrapper_"],
+[class*="expressionPicker"] [class*="nav_"],
+[class*="quickswitcher_"] [class*="scroller_"],
+[class*="autocomplete_"] [class*="scroller_"] {
+  background: transparent !important;
+}
+
+/* Hovered items in lists, pickers and autocomplete */
+[class*="autocomplete_"] [class*="selected_"],
+[class*="quickswitcher_"] [class*="selected_"],
+[class*="emojiPicker_"] [class*="emojiItemSelected_"] {
+  background: color-mix(in srgb, var(--accent-color) 70%, transparent) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+}
+
+/* Toggle switches in macOS green */
+[class*="container_"][class*="checked_"] {
+  background-color: var(--macos-green) !important;
 }
 
 /* ========================================================================== */
