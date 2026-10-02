@@ -1,0 +1,269 @@
+/**
+ * @name macOS Modern
+ * @author Community
+ * @version 1.0.0
+ * @description A modern macOS-inspired glass theme for BetterDiscord and Vencord.
+ * @source https://github.com/BetterDiscord/BetterDiscord
+ * @website https://betterdiscord.app/
+ */
+
+/* ========================================================================== */
+/* Theme variables and wallpaper                                               */
+/* ========================================================================== */
+
+:root {
+  --wallpaper: url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2400&q=85");
+  --accent-color: #0a84ff;
+  --glass-blur: 20px;
+  --glass-bg: rgba(24, 26, 32, 0.68);
+  --glass-bg-strong: rgba(24, 26, 32, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
+  --text-primary: rgba(255, 255, 255, 0.94);
+  --text-secondary: rgba(255, 255, 255, 0.68);
+  --macos-red: #ff5f57;
+  --macos-yellow: #febc2e;
+  --macos-green: #28c840;
+  --panel-radius: 12px;
+  --control-radius: 10px;
+
+  color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: #17191e var(--wallpaper) center / cover fixed no-repeat !important;
+  color: var(--text-primary);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+/* ========================================================================== */
+/* Transparent application layers                                             */
+/* ========================================================================== */
+
+#app-mount,
+#app-mount > div,
+#app-mount [class*="app_"],
+#app-mount [class*="layers_"],
+#app-mount [class*="layer_"],
+#app-mount [class*="base_"],
+#app-mount [class*="content_"],
+#app-mount [class*="scroller_"],
+#app-mount [class*="chat_"],
+#app-mount [class*="chatContent_"] {
+  background-color: transparent !important;
+}
+
+#app-mount {
+  color: var(--text-primary);
+}
+
+/* Keep embedded media and call surfaces opaque enough to remain legible. */
+#app-mount [class*="callContainer_"],
+#app-mount [class*="videoWrapper_"],
+#app-mount [class*="streamPreview_"],
+#app-mount [class*="embed_"],
+#app-mount [class*="imageWrapper_"] {
+  background-color: rgba(12, 14, 18, 0.28);
+}
+
+/* ========================================================================== */
+/* Frosted glass panels                                                       */
+/* ========================================================================== */
+
+#app-mount [class*="guilds_"],
+#app-mount [class*="sidebar_"]:not([class*="sidebarList_"]),
+#app-mount [class*="membersWrap_"],
+#app-mount [class*="members_"],
+#app-mount [class*="panels_"],
+#app-mount [class*="title_"]:not([class*="titleText_"]),
+#app-mount [class*="toolbar_"],
+#app-mount [class*="header_"],
+#app-mount [class*="container_"][class*="search"] {
+  background-color: var(--glass-bg) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(145%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(145%);
+  border-color: var(--glass-border) !important;
+}
+
+#app-mount [class*="guilds_"],
+#app-mount [class*="sidebar_"]:not([class*="sidebarList_"]),
+#app-mount [class*="membersWrap_"],
+#app-mount [class*="panels_"] {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--panel-radius);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#app-mount [class*="sidebar_"]:not([class*="sidebarList_"]) {
+  overflow: hidden;
+}
+
+#app-mount [class*="membersWrap_"] {
+  margin: 8px 8px 8px 0;
+  overflow: hidden;
+}
+
+#app-mount [class*="panels_"] {
+  background-color: var(--glass-bg-strong) !important;
+}
+
+#app-mount [class*="header_"] {
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* ========================================================================== */
+/* macOS traffic lights                                                       */
+/* ========================================================================== */
+
+#app-mount::before {
+  content: "";
+  position: fixed;
+  z-index: 10000;
+  top: 14px;
+  left: 16px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--macos-red);
+  box-shadow: 20px 0 0 var(--macos-yellow), 40px 0 0 var(--macos-green);
+  pointer-events: none;
+  transition: filter 160ms ease, transform 160ms ease;
+}
+
+#app-mount:hover::before {
+  filter: brightness(1.08);
+  transform: scale(1.04);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 12'%3E%3Cg fill='none' stroke='%23732320' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='m4 4 4 4m0-4L4 8'/%3E%3Cpath d='M24 6h4'/%3E%3Cpath d='m43 7 2-2 2 2'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 52px 12px;
+}
+
+#app-mount [class*="guilds_"] {
+  padding-top: 34px;
+}
+
+/* ========================================================================== */
+/* Chat composer, search and interactive controls                              */
+/* ========================================================================== */
+
+#app-mount [class*="channelTextArea_"],
+#app-mount [class*="scrollableContainer_"],
+#app-mount [class*="inner_"],
+#app-mount [class*="searchBar_"] {
+  background: rgba(20, 22, 27, 0.66) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--control-radius);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#app-mount [class*="channelTextArea_"]:focus-within,
+#app-mount [class*="searchBar_"]:focus-within {
+  border-color: color-mix(in srgb, var(--accent-color) 65%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+#app-mount button,
+#app-mount [role="button"] {
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+#app-mount button:hover,
+#app-mount [role="button"]:hover {
+  border-color: var(--glass-highlight);
+}
+
+#app-mount [class*="lookFilled_"][class*="colorBrand_"],
+#app-mount [class*="colorBrand_"]:not([class*="linkButton_"]) {
+  background-color: var(--accent-color);
+}
+
+#app-mount [class*="colorBrand_"]:hover {
+  background-color: #2997ff;
+}
+
+/* ========================================================================== */
+/* Menus, dialogs, popouts and profile cards                                   */
+/* ========================================================================== */
+
+#app-mount [role="menu"],
+#app-mount [class*="menu_"]:not([class*="menuItem_"]),
+#app-mount [class*="popout_"]:not([class*="popoutContainer_"]),
+#app-mount [class*="modal_"] [class*="root_"],
+#app-mount [class*="userPopout_"] {
+  background-color: rgba(28, 30, 36, 0.88) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--panel-radius);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(145%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(145%);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+#app-mount [role="menuitem"],
+#app-mount [class*="menuItem_"] {
+  border-radius: 7px;
+}
+
+#app-mount [role="menuitem"]:hover,
+#app-mount [class*="menuItem_"]:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ========================================================================== */
+/* Message contrast, typography and avatars                                    */
+/* ========================================================================== */
+
+#app-mount,
+#app-mount [class*="markup_"],
+#app-mount [class*="messageContent_"],
+#app-mount [class*="username_"] {
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+#app-mount [class*="timestamp_"],
+#app-mount [class*="placeholder_"],
+#app-mount [class*="topic_"] {
+  color: var(--text-secondary);
+}
+
+#app-mount img[class*="avatar_"],
+#app-mount [class*="avatar_"] img,
+#app-mount [class*="avatarDecoration_"] {
+  border-radius: 50%;
+}
+
+#app-mount [class*="message_"],
+#app-mount [class*="container_"],
+#app-mount [class*="card_"] {
+  border-color: var(--glass-border);
+}
+
+/* ========================================================================== */
+/* Accessibility and reduced motion                                           */
+/* ========================================================================== */
+
+#app-mount :focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent-color) 75%, white);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app-mount *,
+  #app-mount *::before,
+  #app-mount *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
